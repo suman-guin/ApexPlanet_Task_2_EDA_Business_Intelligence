@@ -1,0 +1,255 @@
+APEXPLANET TASK 2
+SQL BUSINESS ANALYSIS RESULTS
+========================================
+
+Database: apexplanet_task2
+Sales Records: 1000
+Unique Customers: 947
+Products: 6
+
+
+============================================================
+Q1. WHICH CITY HAS THE HIGHEST NUMBER OF ORDERS?
+============================================================
+
+SQL Query:
+
+SELECT
+    City,
+    COUNT(Order_ID) AS Total_Orders
+FROM sales
+GROUP BY City
+ORDER BY Total_Orders DESC;
+
+Result:
+
+City        Total_Orders
+-------------------------
+Patna       135
+Kolkata     133
+Mumbai      131
+Hyderabad   125
+Delhi       125
+Bengaluru   122
+Gaya        117
+Pune         99
+Unknown      13
+
+Key Finding:
+Patna has the highest number of orders with 135 orders.
+
+
+============================================================
+Q2. WHICH PRODUCT HAS THE HIGHEST TOTAL QUANTITY SOLD?
+============================================================
+
+SQL Query:
+
+SELECT
+    Product,
+    SUM(Quantity) AS Total_Quantity
+FROM sales
+GROUP BY Product
+ORDER BY Total_Quantity DESC;
+
+Result:
+
+Product     Total_Quantity
+--------------------------
+Mobile           1008
+Book              977
+Laptop            970
+Chair             855
+Rice              826
+Shoes             799
+
+Key Finding:
+Mobile has the highest total quantity sold with 1,008 units.
+
+
+============================================================
+Q3. WHICH CATEGORY GENERATES THE HIGHEST TOTAL SALES?
+============================================================
+
+SQL Query:
+
+SELECT
+    Category,
+    ROUND(SUM(Total_Sales), 2) AS Total_Sales
+FROM sales
+GROUP BY Category
+ORDER BY Total_Sales DESC;
+
+Result:
+
+Category       Total_Sales
+--------------------------
+Electronics    50778581.70
+Education      25031689.40
+Grocery        22231711.28
+Furniture      21521561.48
+Fashion        19835895.79
+
+Key Finding:
+Electronics generates the highest total sales with total sales of
+₹50,778,581.70.
+
+
+============================================================
+Q4. WHAT IS THE AVERAGE SALES PER CITY?
+============================================================
+
+SQL Query:
+
+SELECT
+    City,
+    ROUND(AVG(Total_Sales), 2) AS Average_Sales
+FROM sales
+GROUP BY City
+ORDER BY Average_Sales DESC;
+
+Result:
+
+City        Average_Sales
+-------------------------
+Bengaluru       153881.76
+Pune            146597.74
+Mumbai          143183.59
+Patna           142859.01
+Kolkata         141987.59
+Hyderabad       137334.13
+Delhi           128776.63
+Gaya            122913.33
+Unknown         118509.04
+
+Key Finding:
+Bengaluru has the highest average sales per order with an average
+sales value of ₹153,881.76.
+
+
+============================================================
+Q5. WHAT ARE THE TOTAL QUANTITY AND TOTAL SALES FOR EACH CATEGORY?
+============================================================
+
+SQL Query:
+
+SELECT
+    Category,
+    SUM(Quantity) AS Total_Quantity,
+    ROUND(SUM(Total_Sales), 2) AS Total_Sales
+FROM sales
+GROUP BY Category
+ORDER BY Total_Sales DESC;
+
+Result:
+
+Category       Total_Quantity    Total_Sales
+---------------------------------------------
+Electronics        1978         50778581.70
+Education           977         25031689.40
+Grocery             826         22231711.28
+Furniture           855         21521561.48
+Fashion             799         19835895.79
+
+Key Finding:
+Electronics has the highest total quantity and total sales among
+the categories, with 1,978 units and ₹50,778,581.70 in total sales.
+
+
+============================================================
+Q6. WHAT IS THE AVERAGE SALES BY GENDER?
+============================================================
+
+SQL Query:
+
+SELECT
+    c.Gender,
+    COUNT(s.Order_ID) AS Total_Orders,
+    ROUND(AVG(s.Total_Sales), 2) AS Average_Sales
+FROM sales AS s
+INNER JOIN customers AS c
+    ON s.Customer_ID = c.Customer_ID
+GROUP BY c.Gender
+ORDER BY Average_Sales DESC;
+
+Result:
+
+Gender      Total_Orders    Average_Sales
+-----------------------------------------
+Male             511          141807.34
+Female           489          136883.21
+
+Key Finding:
+Male customers have an average sales value of ₹141,807.34 per
+order, while Female customers have an average sales value of
+₹136,883.21.
+
+
+============================================================
+Q7. HIGH-VALUE ORDERS: PRODUCT-WISE SALES
+============================================================
+
+SQL Query:
+
+SELECT
+    p.Product,
+    p.Category,
+    SUM(s.Quantity) AS Total_Quantity,
+    ROUND(SUM(s.Total_Sales), 2) AS Total_Sales
+FROM sales AS s
+INNER JOIN products AS p
+    ON s.Product = p.Product
+WHERE s.Total_Sales > 100000
+GROUP BY
+    p.Product,
+    p.Category
+ORDER BY Total_Sales DESC;
+
+Result:
+
+Product    Category       Total_Quantity    Total_Sales
+--------------------------------------------------------
+Laptop     Electronics         687         22312072.56
+Mobile     Electronics         714         21616377.17
+Book       Education           684         21383012.54
+Rice       Grocery             568         18913875.97
+Chair      Furniture           534         17739680.88
+Shoes      Fashion             515         16119012.00
+
+Key Finding:
+Among orders above ₹100,000, Laptop has the highest aggregated
+sales contribution with ₹22,312,072.56.
+
+
+============================================================
+SQL ANALYSIS SUMMARY
+============================================================
+
+The SQL analysis covered:
+
+1. Filtering
+2. Aggregation using COUNT(), SUM(), and AVG()
+3. GROUP BY
+4. ORDER BY
+5. WHERE condition
+6. INNER JOIN
+7. Multi-table analysis
+8. City-wise analysis
+9. Product-wise analysis
+10. Category-wise analysis
+11. Gender-wise analysis
+12. High-value order analysis
+
+Database Structure:
+
+sales       → 1000 records
+customers   → 947 unique customers
+products    → 6 products
+
+The analysis was performed using MySQL on the cleaned dataset
+prepared during Task 1.
+
+
+============================================================
+END OF SQL BUSINESS ANALYSIS RESULTS
+============================================================
